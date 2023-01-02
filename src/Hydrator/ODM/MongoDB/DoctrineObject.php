@@ -3,8 +3,7 @@
 namespace Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB;
 
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as BaseHydrator;
-use DoctrineModule\Stdlib\Hydrator\Strategy as DoctrineStrategy;
+use Doctrine\Laminas\Hydrator\DoctrineObject as BaseHydrator;
 use InvalidArgumentException;
 use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy\AbstractMongoStrategy;
 use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy\DateTimeField;
@@ -19,7 +18,7 @@ class DoctrineObject extends BaseHydrator
      *
      * @throws InvalidArgumentException
      */
-    protected function prepareStrategies()
+    protected function prepareStrategies(): void
     {
         $this->prepareFieldStrategies();
         $this->prepareAssociationStrategies();
@@ -40,7 +39,7 @@ class DoctrineObject extends BaseHydrator
             }
 
             $fieldMeta = $this->metadata->fieldMappings[$field];
-            if (in_array($fieldMeta['type'], array('date', 'timestamp'))) {
+            if (in_array($fieldMeta['type'], ['date', 'timestamp'])) {
                 $isTimestamp = ($fieldMeta['type'] == 'timestamp');
                 $this->addStrategy($field, new DateTimeField($isTimestamp));
             }
@@ -104,7 +103,7 @@ class DoctrineObject extends BaseHydrator
      */
     protected function injectAssociationStrategyDependencies($strategy, $association)
     {
-        if ($strategy instanceof DoctrineStrategy\AbstractCollectionStrategy) {
+        if ($strategy instanceof AbstractMongoStrategy) {
             $strategy->setCollectionName($association);
             $strategy->setClassMetadata($this->metadata);
         }
@@ -118,11 +117,11 @@ class DoctrineObject extends BaseHydrator
      * Make sure to only use the mongoDB ODM strategies for onMany.
      *
      * @param object $object
-     * @param mixed  $collectionName
+     * @param string  $collectionName
      * @param string $target
      * @param mixed  $values
      */
-    protected function toMany($object, $collectionName, $target, $values)
+    protected function toMany(object $object, string $collectionName, string $target, $values): void
     {
         if ($this->hasStrategy($collectionName)) {
             $strategy = $this->getStrategy($collectionName);

@@ -2,58 +2,78 @@
 
 namespace Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Laminas\Hydrator\Strategy\CollectionStrategyInterface;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use DoctrineModule\Stdlib\Hydrator\Strategy\AbstractCollectionStrategy;
-use DoctrineModule\Stdlib\Hydrator\Strategy\AllowRemoveByValue;
+use DoctrineModule\Persistence\ProvidesObjectManager;
+use Doctrine\Laminas\Hydrator\Strategy\AllowRemoveByValue;
 use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\DoctrineObject;
 
 /**
  * Abstract AbstractMongoStrategy.
  */
-abstract class AbstractMongoStrategy extends AbstractCollectionStrategy implements ObjectManagerAwareInterface
+abstract class AbstractMongoStrategy implements ObjectManagerAwareInterface, CollectionStrategyInterface
 {
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
+    use ProvidesObjectManager;
+    private ?ClassMetadata $metadata = null;
 
-    /**
-     * Set the object manager.
-     *
-     * @param ObjectManager $objectManager
-     */
-    public function setObjectManager(ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
+    private ?object $object = null;
 
-    /**
-     * Get the object manager.
-     *
-     * @return ObjectManager
-     */
-    public function getObjectManager()
-    {
-        return $this->objectManager;
-    }
+    private ?string $collectionName = null;
 
-    /**
-     * @param ObjectManager $objectManager Possibly injected by hydrator factory
-     */
-    public function __construct($objectManager = null)
+    public function __construct(?ObjectManager $objectManager = null)
     {
         if ($objectManager) {
             $this->setObjectManager($objectManager);
         }
     }
 
-    /**
-     * @return DoctrineObject
-     */
-    protected function getDoctrineHydrator()
+    protected function getDoctrineHydrator(): DoctrineObject
     {
         return new DoctrineObject($this->getObjectManager());
+    }
+
+    public function setCollectionName(string $collectionName): void
+    {
+        $this->collectionName = $collectionName;
+    }
+
+    public function getCollectionName(): string
+    {
+        if ($this->collectionName === null) {
+            throw new LogicException('Collection name has not been set.');
+        }
+
+        return $this->collectionName;
+    }
+
+    public function setClassMetadata(ClassMetadata $classMetadata): void
+    {
+        $this->metadata = $classMetadata;
+    }
+
+    public function getClassMetadata(): ClassMetadata
+    {
+        if ($this->metadata === null) {
+            throw new \LogicException('Class metadata has not been set.');
+        }
+
+        return $this->metadata;
+    }
+
+    public function setObject(object $object): void
+    {
+        $this->object = $object;
+    }
+
+    public function getObject(): object
+    {
+        if ($this->object === null) {
+            throw new LogicException('Object has not been set.');
+        }
+
+        return $this->object;
     }
 
     /**
@@ -70,20 +90,18 @@ abstract class AbstractMongoStrategy extends AbstractCollectionStrategy implemen
         $strategy->setClassMetadata($this->getClassMetadata());
         $strategy->setCollectionName($this->getCollectionName());
 
-        return $strategy->hydrate($value);
+        return $strategy->hydrate($value, null);
     }
 
     /**
-     * @param $targetDocument
-     * @param $targetId
+     * @param string|class-string $targetDocument
+     * @param string $targetId
      *
      * @return object
      */
     protected function findTargetDocument($targetDocument, $targetId)
     {
         $repo = $this->getObjectManager()->getRepository($targetDocument);
-        $document = $repo->find($targetId);
-
-        return $document;
+        return $repo->find($targetId);
     }
 }

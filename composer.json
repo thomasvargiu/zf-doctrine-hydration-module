@@ -1,9 +1,9 @@
 {
-  "name": "phpro/zf-doctrine-hydration-module",
+  "name": "datasage/laminas-doctrine-hydration-module",
   "license": "MIT",
-  "description": "Doctrine hydrators for ZF2 and ZF3",
+  "description": "Doctrine hydrators for Laminas Framework",
   "keywords": [
-    "zf",
+    "laminas",
     "doctrine",
     "hydrator"
   ],
@@ -11,29 +11,33 @@
     {
       "name": "Toon Verwerft",
       "email": "toon.verwerft@phpro.be"
+    },
+    {
+      "name": "Dan Johansson",
+      "email": "datasge@gmail.com"
     }
   ],
   "extra": {
-    "zf": {
+    "laminas": {
       "module": "Phpro\\DoctrineHydrationModule"
     }
   },
   "require": {
-    "php": "^5.6 || ^7.0",
-    "doctrine/common": "^2.6.1",
-    "doctrine/doctrine-module": "^1.2 || ^2.1.7",
+    "php": "^7.4 || ^8.0 || ^8.1",
+    "doctrine/persistence": "^2.0.0 || ^3.0.0",
+    "doctrine/doctrine-module": "^3.0.0 || ^4.0.0 || ^5.0.0",
     "doctrine/instantiator": "^1.0.5",
-    "zendframework/zend-servicemanager": "^3.3.2",
-    "zendframework/zend-hydrator": "^1.1 || ^2.2.1",
-    "zendframework/zend-modulemanager": "^2.7.2"
+    "laminas/laminas-servicemanager": "^3.3.2",
+    "laminas/laminas-hydrator": "^3.0.0 || ^4.0.0",
+    "doctrine/doctrine-laminas-hydrator": "^3.2"
   },
   "require-dev": {
-    "fabpot/PHP-CS-Fixer": "^1.11.6",
-    "phpunit/phpunit": "^5.7.27",
-    "doctrine/doctrine-orm-module": "^1.1 || ^2.1.2",
-    "doctrine/doctrine-mongo-odm-module": "^0.11 || ^1.0",
-    "doctrine/mongodb-odm": "^1.1",
-    "phpro/grumphp": "^0.9.1"
+    "friendsofphp/php-cs-fixer": "^3",
+    "phpunit/phpunit": "^9.5.27",
+    "doctrine/doctrine-orm-module": "^3.0.0 || ^4.0.0 || ^5.0.0",
+    "doctrine/doctrine-mongo-odm-module": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "doctrine/mongodb-odm": "^2.0",
+    "dg/bypass-finals": "^1.4"
   },
   "autoload": {
     "psr-4": {
@@ -44,5 +48,7 @@
     "psr-4": {
       "PhproTest\\DoctrineHydrationModule\\": "test/src/"
     }
+  },
+  "config": {
   }
 }

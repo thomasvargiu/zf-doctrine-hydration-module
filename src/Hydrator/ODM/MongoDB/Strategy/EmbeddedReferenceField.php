@@ -8,11 +8,9 @@ namespace Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy;
 class EmbeddedReferenceField extends AbstractMongoStrategy
 {
     /**
-     * @param mixed $value
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function extract($value)
+    public function extract($value, ?object $object = null)
     {
         if (!$value) {
             return $value;
@@ -31,7 +29,7 @@ class EmbeddedReferenceField extends AbstractMongoStrategy
      *
      * @return array|mixed
      */
-    public function hydrate($value)
+    public function hydrate($value, ?array $data)
     {
         $strategy = new ReferencedField($this->getObjectManager());
         $strategy->setClassMetadata($this->getClassMetadata());
@@ -40,6 +38,6 @@ class EmbeddedReferenceField extends AbstractMongoStrategy
             $strategy->setObject($this->getObject());
         }
 
-        return $strategy->hydrate($value);
+        return $strategy->hydrate($value, $data);
     }
 }

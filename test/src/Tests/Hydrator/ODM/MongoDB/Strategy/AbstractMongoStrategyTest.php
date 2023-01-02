@@ -2,8 +2,9 @@
 
 namespace PhproTest\DoctrineHydrationModule\Tests\Hydrator\ODM\MongoDB\Strategy;
 
-use Doctrine\ODM\MongoDB\Tests\BaseTest;
-use Zend\Hydrator\Strategy\StrategyInterface;
+use Doctrine\Laminas\Hydrator\Strategy\CollectionStrategyInterface;
+use Laminas\Hydrator\Strategy\StrategyInterface;
+use PhproTest\DoctrineHydrationModule\Tests\Hydrator\ODM\MongoDB\BaseTest;
 
 /**
  * Class AbstractMongoStrategyTest.
@@ -51,7 +52,7 @@ abstract class AbstractMongoStrategyTest extends BaseTest
     public function it_should_be_a_collection_strategy()
     {
         $strategy = $this->createStrategy();
-        $this->assertInstanceOf('DoctrineModule\Stdlib\Hydrator\Strategy\AbstractCollectionStrategy', $strategy);
+        $this->assertInstanceOf(CollectionStrategyInterface::class, $strategy);
     }
 
     /**

@@ -2,7 +2,8 @@
 
 namespace Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy;
 
-use Zend\Hydrator\Strategy\StrategyInterface;
+use Laminas\Hydrator\Strategy\StrategyInterface;
+use MongoDB\BSON\UTCDateTime;
 
 /**
  * Class DateTimeField.
@@ -23,11 +24,10 @@ class DateTimeField implements StrategyInterface
     }
 
     /**
-     * @param mixed $value
-     *
+     * {@inheritDoc}
      * @return int|mixed
      */
-    public function extract($value)
+    public function extract($value, ?object $object = null)
     {
         if (!($value instanceof \DateTime)) {
             return $value;
@@ -37,11 +37,10 @@ class DateTimeField implements StrategyInterface
     }
 
     /**
-     * @param mixed $value
-     *
-     * @return \DateTime|null
+     * {@inheritDoc}
+     * @return \DateTime|int|null
      */
-    public function hydrate($value)
+    public function hydrate($value, ?array $data)
     {
         $datetime = $this->convertToDateTime($value);
         if (!$datetime) {
@@ -68,11 +67,8 @@ class DateTimeField implements StrategyInterface
             return clone $value;
         }
 
-        if ($value instanceof \MongoDate) {
-            $datetime = new \DateTime();
-            $datetime->setTimestamp($value->sec);
-
-            return $datetime;
+        if ($value instanceof UTCDateTime) {
+            return $value->toDateTime();
         }
 
         if (is_numeric($value)) {
@@ -83,11 +79,9 @@ class DateTimeField implements StrategyInterface
         }
 
         if (is_string($value) && !empty($value)) {
-            $datetime = new \DateTime($value);
-
-            return $datetime;
+            return new \DateTime($value);
         }
 
-        return;
+        return null;
     }
 }

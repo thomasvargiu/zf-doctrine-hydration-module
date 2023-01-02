@@ -2,11 +2,14 @@
 
 namespace PhproTest\DoctrineHydrationModule;
 
-error_reporting(E_ALL | E_STRICT);
-define('PROJECT_BASE_PATH', __DIR__.'/../..');
-define('TEST_BASE_PATH', __DIR__.'/..');
+use DG\BypassFinals;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
-$autoloadFile = PROJECT_BASE_PATH.'/vendor/autoload.php';
+error_reporting(E_ALL | E_STRICT);
+define('PROJECT_BASE_PATH', __DIR__ . '/../..');
+define('TEST_BASE_PATH', __DIR__ . '/..');
+
+$autoloadFile = PROJECT_BASE_PATH . '/vendor/autoload.php';
 if (!file_exists($autoloadFile)) {
     throw new \RuntimeException('Install dependencies to run test suite.');
 }
@@ -36,6 +39,8 @@ class Bootstrap
     {
         $this->initAutoLoading();
         $this->configureDoctrineODM();
+
+        BypassFinals::enable();
     }
 
     /**
@@ -43,12 +48,12 @@ class Bootstrap
      */
     protected function initAutoLoading()
     {
-        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Tests\\', __DIR__.'/Tests/');
-        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Fixtures\\', __DIR__.'/Fixtures/');
+        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Tests\\', __DIR__ . '/Tests/');
+        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Fixtures\\', __DIR__ . '/Fixtures/');
 
-        $this->autoLoader->addClassMap(array(
-            'Doctrine\\ODM\\MongoDB\\Tests\\BaseTest' => PROJECT_BASE_PATH.'/vendor/doctrine/mongodb-odm/tests/Doctrine/ODM/MongoDB/Tests/BaseTest.php',
-        ));
+        $this->autoLoader->addClassMap([
+            'Doctrine\\ODM\\MongoDB\\Tests\\BaseTest' => PROJECT_BASE_PATH . '/vendor/doctrine/mongodb-odm/tests/Doctrine/ODM/MongoDB/Tests/BaseTest.php',
+        ]);
     }
 
     /**
@@ -57,11 +62,8 @@ class Bootstrap
     protected function configureDoctrineODM()
     {
         // Constants
-        define('DOCTRINE_MONGODB_DATABASE', 'hydrator-tests');
-        define('DOCTRINE_MONGODB_SERVER', 'mongodb://localhost:27017');
-
-        // Load annotated classes
-        \Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver::registerAnnotationClasses();
+        define('DOCTRINE_MONGODB_DATABASE', getenv('DOCTRINE_MONGODB_DATABASE') ?: 'hydrator-tests');
+        define('DOCTRINE_MONGODB_SERVER', getenv('DOCTRINE_MONGODB_SERVER') ?: 'mongodb://localhost:27017');
     }
 }
 

@@ -11,17 +11,15 @@ use Doctrine\Common\Collections\Collection;
 class ReferencedCollection extends AbstractMongoStrategy
 {
     /**
-     * @param mixed $value
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function extract($value)
+    public function extract($value, ?object $object = null)
     {
         $strategy = new ReferencedField($this->getObjectManager());
         $strategy->setClassMetadata($this->getClassMetadata());
         $strategy->setCollectionName($this->getCollectionName());
 
-        $result = array();
+        $result = [];
         if ($value) {
             foreach ($value as $key => $record) {
                 $strategy->setObject($record);
@@ -37,12 +35,12 @@ class ReferencedCollection extends AbstractMongoStrategy
      *
      * @return array|Collection|mixed
      */
-    public function hydrate($value)
+    public function hydrate($value, ?array $data)
     {
-        $mapping = $this->metadata->fieldMappings[$this->collectionName];
+        $mapping = $this->getClassMetadata()->fieldMappings[$this->getCollectionName()];
         $targetDocument = $mapping['targetDocument'];
 
-        $result = array();
+        $result = [];
         if ($value) {
             foreach ($value as $documentId) {
                 $result[] = $this->hydrateSingle($targetDocument, $documentId);
