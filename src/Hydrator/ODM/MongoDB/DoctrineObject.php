@@ -116,12 +116,9 @@ class DoctrineObject extends BaseHydrator
     /**
      * Make sure to only use the mongoDB ODM strategies for onMany.
      *
-     * @param object $object
-     * @param string  $collectionName
-     * @param string $target
-     * @param mixed  $values
+     * @inheritDoc
      */
-    protected function toMany(object $object, string $collectionName, string $target, $values): void
+    protected function toMany($object, $collectionName, $target, $values)
     {
         if ($this->hasStrategy($collectionName)) {
             $strategy = $this->getStrategy($collectionName);
