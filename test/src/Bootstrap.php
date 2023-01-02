@@ -6,10 +6,10 @@ use DG\BypassFinals;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
 error_reporting(E_ALL | E_STRICT);
-define('PROJECT_BASE_PATH', __DIR__.'/../..');
-define('TEST_BASE_PATH', __DIR__.'/..');
+define('PROJECT_BASE_PATH', __DIR__ . '/../..');
+define('TEST_BASE_PATH', __DIR__ . '/..');
 
-$autoloadFile = PROJECT_BASE_PATH.'/vendor/autoload.php';
+$autoloadFile = PROJECT_BASE_PATH . '/vendor/autoload.php';
 if (!file_exists($autoloadFile)) {
     throw new \RuntimeException('Install dependencies to run test suite.');
 }
@@ -48,11 +48,11 @@ class Bootstrap
      */
     protected function initAutoLoading()
     {
-        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Tests\\', __DIR__.'/Tests/');
-        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Fixtures\\', __DIR__.'/Fixtures/');
+        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Tests\\', __DIR__ . '/Tests/');
+        $this->autoLoader->addPsr4('PhproTest\\DoctrineHydrationModule\\Fixtures\\', __DIR__ . '/Fixtures/');
 
         $this->autoLoader->addClassMap([
-            'Doctrine\\ODM\\MongoDB\\Tests\\BaseTest' => PROJECT_BASE_PATH.'/vendor/doctrine/mongodb-odm/tests/Doctrine/ODM/MongoDB/Tests/BaseTest.php',
+            'Doctrine\\ODM\\MongoDB\\Tests\\BaseTest' => PROJECT_BASE_PATH . '/vendor/doctrine/mongodb-odm/tests/Doctrine/ODM/MongoDB/Tests/BaseTest.php',
         ]);
     }
 
