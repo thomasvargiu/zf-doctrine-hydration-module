@@ -10,17 +10,15 @@ use Doctrine\Common\Collections\Collection;
 class ReferencedField extends AbstractMongoStrategy
 {
     /**
-     * @param mixed $value
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function extract($value)
+    public function extract($value, ?object $object = null)
     {
         if (!is_object($value)) {
             return $value;
         }
 
-        $idField = $this->metadata->getIdentifier();
+        $idField = $this->getClassMetadata()->getIdentifier();
         $idField = is_array($idField) ? current($idField) : $idField;
         $getter = 'get'.ucfirst($idField);
 
@@ -38,13 +36,13 @@ class ReferencedField extends AbstractMongoStrategy
      *
      * @return array|Collection|mixed
      */
-    public function hydrate($value)
+    public function hydrate($value, ?array $data)
     {
         if (is_object($value)) {
             return $value;
         }
 
-        $mapping = $this->metadata->fieldMappings[$this->collectionName];
+        $mapping = $this->getClassMetadata()->fieldMappings[$this->getCollectionName()];
         $targetDocument = $mapping['targetDocument'];
 
         return $this->findTargetDocument($targetDocument, $value);

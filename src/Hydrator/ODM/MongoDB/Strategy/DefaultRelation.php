@@ -10,13 +10,12 @@ use Doctrine\Common\Collections\Collection;
 class DefaultRelation extends AbstractMongoStrategy
 {
     /**
-     * @param mixed $value
-     *
+     * {@inheritDoc}
      * @return array|mixed
      *
      * @throws \Exception
      */
-    public function extract($value)
+    public function extract($value, ?object $object = null)
     {
         return $value;
     }
@@ -26,11 +25,11 @@ class DefaultRelation extends AbstractMongoStrategy
      *
      * @return array|Collection|mixed
      */
-    public function hydrate($value)
+    public function hydrate($value, ?array $data)
     {
         // Beware of the collection strategies:
-        $collection = $this->collectionName;
-        if ($this->metadata->isCollectionValuedAssociation($collection)) {
+        $collection = $this->getCollectionName();
+        if ($this->getClassMetadata()->isCollectionValuedAssociation($collection)) {
             $value = $this->hydrateCollection($value);
         }
 

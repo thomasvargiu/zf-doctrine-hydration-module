@@ -5,7 +5,7 @@ namespace PhproTest\DoctrineHydrationModule\Tests\Hydrator\ODM\MongoDB\Strategy;
 use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy\EmbeddedField;
 use PhproTest\DoctrineHydrationModule\Fixtures\ODM\MongoDb\HydrationEmbedOne;
 use PhproTest\DoctrineHydrationModule\Fixtures\ODM\MongoDb\HydrationUser;
-use Zend\Hydrator\Strategy\StrategyInterface;
+use Laminas\Hydrator\Strategy\StrategyInterface;
 
 /**
  * Class EmbeddedFieldTest.
@@ -30,7 +30,6 @@ class EmbeddedFieldTest extends AbstractMongoStrategyTest
         $user->setName('username');
 
         $embedded = new HydrationEmbedOne();
-        $embedded->setId(1);
         $embedded->setName('name');
         $strategy = $this->getStrategy($this->dm, $user, 'embedOne');
         $result = $strategy->extract($user->getEmbedOne());
@@ -47,7 +46,6 @@ class EmbeddedFieldTest extends AbstractMongoStrategyTest
         $user->setName('username');
 
         $embedded = new HydrationEmbedOne();
-        $embedded->setId(1);
         $embedded->setName('name');
         $user->setEmbedOne($embedded);
 
@@ -65,13 +63,13 @@ class EmbeddedFieldTest extends AbstractMongoStrategyTest
         $user->setId(1);
         $user->setName('username');
 
-        $data = array(
+        $data = [
             'id' => 1,
             'name' => 'name',
-        );
+        ];
 
         $strategy = $this->getStrategy($this->dm, $user, 'embedOne');
-        $result = $strategy->hydrate($data);
+        $result = $strategy->hydrate($data, null);
         $this->assertEquals('name', $result->getName());
     }
 }

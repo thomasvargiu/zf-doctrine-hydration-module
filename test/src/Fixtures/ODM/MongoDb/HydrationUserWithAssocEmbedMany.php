@@ -27,7 +27,7 @@ class HydrationUserWithAssocEmbedMany
     public $birthday;
 
     /**
-     * @ODM\Timestamp
+     * @ODM\Field(type="timestamp")
      *
      * @var \DateTime
      */
@@ -43,7 +43,7 @@ class HydrationUserWithAssocEmbedMany
      *
      * @var ArrayCollection
      */
-    public $referenceMany = array();
+    public $referenceMany = [];
 
     /**
      * @ODM\EmbedOne(targetDocument="HydrationEmbedOne")
@@ -51,7 +51,7 @@ class HydrationUserWithAssocEmbedMany
     public $embedOne;
 
     /**
-     * @ODM\EmbedMany(targetDocument="HydrationEmbedMany")
+     * @ODM\EmbedMany(targetDocument="PhproTest\DoctrineHydrationModule\Fixtures\ODM\MongoDb\HydrationEmbedMany")
      *
      * @var ArrayCollection
      */

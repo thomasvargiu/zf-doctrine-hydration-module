@@ -10,13 +10,9 @@ use Doctrine\Common\Collections\Collection;
 class EmbeddedReferenceCollection extends AbstractMongoStrategy
 {
     /**
-     * @param mixed $value
-     *
-     * @return array|mixed
-     *
-     * @throws \Exception
+     * {@inheritDoc}
      */
-    public function extract($value)
+    public function extract($value, ?object $object = null)
     {
         if (!$value) {
             return $value;
@@ -35,7 +31,7 @@ class EmbeddedReferenceCollection extends AbstractMongoStrategy
      *
      * @return array|Collection|mixed
      */
-    public function hydrate($value)
+    public function hydrate($value, ?array $data)
     {
         $strategy = new ReferencedCollection($this->getObjectManager());
         $strategy->setClassMetadata($this->getClassMetadata());
@@ -44,6 +40,6 @@ class EmbeddedReferenceCollection extends AbstractMongoStrategy
             $strategy->setObject($this->getObject());
         }
 
-        return $strategy->hydrate($value);
+        return $strategy->hydrate($value, $data);
     }
 }

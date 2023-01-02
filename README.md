@@ -1,29 +1,15 @@
 > ## Repository abandoned
 >
-> We are no longer using Apigility at PHPro anymore.
-> Therefor, it is hard for us to make the correct decisions for this package.
-> We are looking for someone who wants to take over the package and can push it in the correct direction again.
->
-> Are you that person? Reach out and we'll discuss how we can help each other!
+>This repo has been updated to support PHP 7.4 and 8+ as well as converted to use Laminas packages.
+>These upgrades where done to address a dependency with an upstream package.
 >
 > Feel free to use it AS-IS, we won't be providing any support anymore.
 
-
-[![Build status](https://api.travis-ci.org/phpro/zf-doctrine-hydration-module.svg)](http://travis-ci.org/phpro/zf-doctrine-hydration-module)
-[![Packagist](https://img.shields.io/packagist/v/phpro/zf-doctrine-hydration-module.svg)](https://packagist.org/packages/phpro/zf-doctrine-hydration-module)
-[![Downloads](https://img.shields.io/packagist/dt/phpro/zf-doctrine-hydration-module.svg)](https://packagist.org/packages/phpro/zf-doctrine-hydration-module)
-
 # Doctrine Hydration Module
-This module provides a configurable way to create new doctrine hydrators.
-By using the configurable API, it is easy to create a custom hydrator for any use case you want.
-
-For ORM, the basic hydrator from the doctrine module is being used. It is possible to configure your own strategies for complex objects like referenced entities.
-
-For MongoDB ODM, a specific hydrator is added. This hydrator will be able to handle Referenced documents and Embedded Documents.
-It is also possible to hydrate advanced documents with discriminator maps.
 
 # Supported features 
 
+* 5.0.x: Upgrade to Laminas and requires PHP 7.4+
 * 4.0.x: Contains zend-servicemanager >=3.3.2 support requiring PHP 5.6+.
 * 3.0.x: Contains zend-servicemanager >=3 support requiring PHP 5.6+.
 * 2.0.x: Contains zend-hydrator support requiring PHP 5.6+.
