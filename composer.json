@@ -1,9 +1,9 @@
 {
-  "name": "phpro/zf-doctrine-hydration-module",
+  "name": "datasage/laminas-doctrine-hydration-module",
   "license": "MIT",
-  "description": "Doctrine hydrators for ZF2 and ZF3",
+  "description": "Doctrine hydrators for Laminas Framework",
   "keywords": [
-    "zf",
+    "laminas",
     "doctrine",
     "hydrator"
   ],
@@ -14,7 +14,7 @@
     }
   ],
   "extra": {
-    "zf": {
+    "laminas": {
       "module": "Phpro\\DoctrineHydrationModule"
     }
   },
