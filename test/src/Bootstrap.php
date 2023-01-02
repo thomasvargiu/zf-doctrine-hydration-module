@@ -62,8 +62,8 @@ class Bootstrap
     protected function configureDoctrineODM()
     {
         // Constants
-        define('DOCTRINE_MONGODB_DATABASE', 'hydrator-tests');
-        define('DOCTRINE_MONGODB_SERVER', 'mongodb://localhost:27017');
+        define('DOCTRINE_MONGODB_DATABASE', getenv('DOCTRINE_MONGODB_DATABASE') ?: 'hydrator-tests');
+        define('DOCTRINE_MONGODB_SERVER', getenv('DOCTRINE_MONGODB_SERVER') ?: 'mongodb://localhost:27017');
     }
 }
 
