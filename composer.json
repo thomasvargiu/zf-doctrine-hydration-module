@@ -1,5 +1,5 @@
 {
-  "name": "datasage/laminas-doctrine-hydration-module",
+  "name": "thomasvargiu/laminas-doctrine-hydration-module",
   "license": "MIT",
   "description": "Doctrine hydrators for Laminas Framework",
   "keywords": [
@@ -23,7 +23,7 @@
     }
   },
   "require": {
-    "php": "^7.4 || ^8.0 || ^8.1 || ^8.2",
+    "php": "^7.4 || ^8.0",
     "doctrine/persistence": "^2.0.0 || ^3.0.0",
     "doctrine/doctrine-module": "^3.0.0 || ^4.0.0 || ^5.0.0",
     "doctrine/instantiator": "^1.0.5",
@@ -50,5 +50,8 @@
     }
   },
   "config": {
+  },
+  "replace": {
+    "phpro/zf-doctrine-hydration-module": "*"
   }
 }
